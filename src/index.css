@@ -46,6 +46,7 @@ h1 {
   cursor: pointer;
   transition: border-color 0.25s;
   color: #ccc;
+  margin-top: 20px;
 }
 #submit-button:hover {
   border-color: #646cff;
