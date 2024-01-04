@@ -8,7 +8,13 @@ type FormValues = {
 }
 
 export const YoutubeForm = () => {
-  const form = useForm<FormValues>()
+  const form = useForm<FormValues>({
+    defaultValues: {
+      username: "Matheus",
+      email: "",
+      channel: "",
+    }
+  })
 
   const { register, control, handleSubmit, formState } = form
   const { errors } = formState
@@ -29,8 +35,7 @@ export const YoutubeForm = () => {
 
       <div className="form-control">
         <label className="label" htmlFor="email">Email</label>
-        <input
-          className="input"
+        <input className="input"
           type="email"
           id="email"
           {...register("email", {
@@ -38,6 +43,21 @@ export const YoutubeForm = () => {
               value:
                 /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
               message: "Invalid email format",
+            },
+            validate: {
+              notAdmin: (fieldValue) => fieldValue !== "admin@example.com" ||
+                "Enter a different email address",
+              notBlackListed: (fieldValue) =>
+                !fieldValue.endsWith("baddomain.com") ||
+                "This domain is not supported"
+              ,
+              emailAvailable: async (fieldValue) => {
+                const response = await fetch(
+                  `https://jsonplaceholder.typicode.com/users?email=${fieldValue}`
+                );
+                const data = await response.json();
+                return data.length === 0 || "Email already exists";
+              },
             },
           })}
         />
