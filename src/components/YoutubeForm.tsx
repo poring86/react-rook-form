@@ -9,6 +9,7 @@ type FormValues = {
     twitter: string
     facebook: string
   }
+  phoneNumbers: string[]
 }
 
 export const YoutubeForm = () => {
@@ -20,8 +21,9 @@ export const YoutubeForm = () => {
       social: {
         twitter: "",
         facebook: "",
-      }
-    }
+      },
+      phoneNumbers: ["", ""]
+    },
   })
 
   const { register, control, handleSubmit, formState } = form
@@ -91,6 +93,20 @@ export const YoutubeForm = () => {
       <div className="form-control">
         <label className="label" htmlFor="facebook">Facebook</label>
         <input className="input" type="text" id="facebook" {...register("social.facebook", {
+          required: "Channel is required"
+        })}></input>
+      </div>
+
+      <div className="form-control">
+        <label className="label" htmlFor="primary-phone">Primary phone number</label>
+        <input className="input" type="text" id="primary-phone" {...register("phoneNumbers.0", {
+          required: "Channel is required"
+        })}></input>
+      </div>
+
+      <div className="form-control">
+        <label className="label" htmlFor="secondary-phone">Secondary phone number</label>
+        <input className="input" type="text" id="secondary-phone" {...register("phoneNumbers.1", {
           required: "Channel is required"
         })}></input>
       </div>
