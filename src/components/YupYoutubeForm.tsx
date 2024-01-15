@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 type FormValues = {
   username: string;
@@ -8,23 +8,23 @@ type FormValues = {
   channel: string;
 };
 
-const schema = z.object({
-  username: z.string().nonempty("Username is required!!!"),
-  email: z
+const schema = yup.object({
+  username: yup.string().required("Username is required"),
+  email: yup
     .string()
-    .nonempty("Email is required")
-    .email("Email format is not valid"),
-  channel: z.string().nonempty("Channel is required"),
+    .email("Email format is not valid")
+    .required("Email is required"),
+  channel: yup.string().required("Channel is required"),
 });
 
-export const ZodYouTubeForm = () => {
+export const YupYouTubeForm = () => {
   const form = useForm<FormValues>({
     defaultValues: {
       username: "",
       email: "",
       channel: "",
     },
-    resolver: zodResolver(schema),
+    resolver: yupResolver(schema),
   });
 
   const { register, handleSubmit, formState } = form;
@@ -36,7 +36,7 @@ export const ZodYouTubeForm = () => {
 
   return (
     <div>
-      <h1>Zod YouTube Form</h1>
+      <h1>Yup YouTube Form</h1>
 
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="form-control">
